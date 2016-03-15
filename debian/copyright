@@ -1,0 +1,9 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+
+Files: *
+Copyright: This software is copyright (c) 2002-2016 by David Nusinow
+License: GPL-3+
+ You are free to distribute this software under the terms of the GNU
+ General Public License.
+ On Debian systems, the complete text of the GNU General Public License
+ can be found in the file '/usr/share/common-licenses/GPL'.

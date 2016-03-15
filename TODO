@@ -1,0 +1,3 @@
+* More i18n and l10n. Send in those .po files!
+* Interface directly with apt/dpkg for section information. Don't go
+  Through apt-cache for it.

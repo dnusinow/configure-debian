@@ -1,0 +1,337 @@
+#!/usr/bin/perl -w
+
+=head1 NAME
+
+configure-debian - central configuration program for packages using debconf
+
+=head1 SYNOPSIS
+
+ configure-debian [options]
+
+=head1 DESCRIPTION
+
+This program is meant to be a simple frontend to the dpkg-reconfigure program. Many new users who do not know about this program are unaware of how to return to the debconf configuration seen during package install. Others who do know about it often forget or do not know the package name of the program they want to reconfigure. This program is meant to address both of those issues.
+
+Note that this is not meant to be a complete configuration system!  Debconf is a purposely simple system, and is not meant to solve all configuration needs. Still, it is very flexible and can accomplish a lot with relative ease.
+
+=head1 OPTIONS
+
+-l --list	List all packages initially, don't show them by section
+
+configure-debian accepts all the command line options for B<dpkg-reconfigure(1)>, and passes them along to it when it calls the program. See its manpapge for details on these options.
+
+
+=head1 SEE ALSO
+
+L<dpkg-reconfigure(1)>
+
+=cut
+
+use strict;
+use warnings;
+use Locale::gettext;
+use Getopt::Long;
+use English;
+
+my $templatedir    = "/var/lib/dpkg/info";
+my $debconf_helper = "/usr/share/configure-debian/configure-debian-debconf";
+
+my %programs         = ();
+my @allprograms      = ();
+my $allprograms      = '';
+my $all              = '';
+my $nosections       = '';
+my $unseen_only      = '';
+my $default_priority = '';
+my $force            = '';
+my $frontend         = '';
+my $priority         = 0;
+my $reconf_args      = '';
+my $real_frontend    = '';
+
+sub warning {
+    print STDERR "configure-debian: @_\n";
+}
+
+sub error {
+    print STDERR "configure-debian: @_\n";
+    exit 1;
+}
+
+sub usage {
+    print STDERR gettext(
+        q{Usage: 
+configure-debian [options] packages
+  -h,  --help           	Print this message.
+  -l,  --list			List all packages instead of by section
+  -a,  --all			Reconfigure all packages.
+  -u,  --unseen-only		Show only not yet seen questions.
+       --default-priority	Use default priority instead of low.
+       --force			Force reconfiguration of broken packages.
+}
+    );
+    exit 0;
+}
+
+sub cd_init {
+
+    my $help;
+
+    #Parse options
+    GetOptions(
+        "h|help"           => \$help,
+        "l|list"           => \$nosections,
+        "a|all"            => \$all,
+        "u|unseen-only"    => \$unseen_only,
+        "default-priority" => \$default_priority,
+        "force"            => \$force,
+        "f|frontend=s"     => \$frontend,
+        "p|priority=s"     => \$priority
+    );
+
+    if ($help) {
+        usage();
+    }
+
+    #Build our args string for dpkg-reconfigure
+    if ($all) {
+        $reconf_args = $reconf_args . " -a ";
+    }
+    if ($unseen_only) {
+        $reconf_args = $reconf_args . " -u ";
+    }
+    if ($default_priority) {
+        $reconf_args = $reconf_args . " --default-priority ";
+    }
+    if ($force) {
+        $reconf_args = $reconf_args . " --force ";
+    }
+    if ($frontend) {
+
+        # If we launch from a menu item, check our environment variables to see
+        # if we should launch the gnome or kde frontend
+        if ( $frontend eq '##CHECK##' ) {
+
+            #TODO: Implement this
+        }
+        else {
+            my $tmpfile = `tempfile`;
+            chomp $tmpfile;
+            system( $debconf_helper, $frontend, $tmpfile );    #Set the frontend
+            $reconf_args = $reconf_args . " --frontend=$frontend ";
+            open( my $frontend_h, '<', $tmpfile );
+            $real_frontend = <$frontend_h>;
+            chomp $real_frontend;
+            close $frontend_h;
+            unlink $tmpfile;
+        }
+    }
+    else {
+        $frontend = "FALSE";
+    }
+    if ($priority) {
+        $reconf_args = $reconf_args . " --priority=$priority ";
+    }
+    $reconf_args = $reconf_args . join( ", ", @ARGV );
+}
+
+### Begin Program Here ###
+if ( $EFFECTIVE_USER_ID != 0 ) {
+    error("$0 must be run as root\n");
+}
+
+print "Loading. One moment...\n";
+
+cd_init();
+
+#Check for the all switch
+if ($all) {
+    exit( system("dpkg-reconfigure --all") );
+}
+
+#Scan for templates files, giving us our list of apps
+opendir( TEMPLATEDIR, $templatedir ) || die "Can't open $templatedir: $!";
+foreach my $name ( sort readdir(TEMPLATEDIR) ) {
+    chomp $name;
+    my $section;
+    if ( $name =~ /.*\.templates$/ ) {
+
+        #Get rid of ourselves
+        if ( $name =~ /^configure-debian/ ) {
+            next;
+        }
+
+        # We've got one, so first figure out which
+        # section it goes in
+        $name =~ s/(.*).templates/$1/;
+        if ( !$nosections ) {
+            open my $aptcache_h, '-|', "apt-cache show $name"
+              or die "can't fork: $!";
+            while (<$aptcache_h>) {
+                if (/^Section:/) {
+                    s/^Section: //;
+                    $section = $_;
+                    chomp $section;
+                }
+            }
+            unless ($section) {
+                die "Couldn't figure out what section app $name is in.\n";
+            }
+            close $aptcache_h or die "bad apt-cache: $! $CHILD_ERROR";
+            if ( $programs{$section} ) {
+                $programs{$section} = $programs{$section} . ", ";
+                $programs{$section} = $programs{$section} . $name;
+            }
+            else {
+                $programs{$section} = $name;
+            }
+        }
+        else {    # We're just listing all the programs in one list here
+            push( @allprograms, $name );
+        }
+    }
+}
+closedir(TEMPLATEDIR);
+
+if ($nosections) {
+    @allprograms = sort(@allprograms);
+    $allprograms = join( ", ", @allprograms );
+}
+
+my $state = 1;
+if ($nosections) {
+    $state = 2;
+}
+my $last_subsection = "";
+my $last_program    = "";
+while ( ( $state != 0 ) and ( $state != 4 ) ) {
+
+    #Ask for subsection
+    if ( $state == 1 ) {
+
+        #Here we make our list of subsections with debconf questions available
+        my $subsel = "";
+        foreach my $subsection ( sort keys %programs ) {
+            if ( $programs{$subsection} ne "" ) {
+                if ( $subsel eq "" ) {
+                    $subsel = $subsection;
+                }
+                else {
+                    $subsel = $subsel . ", " . $subsection;
+                }
+            }
+        }
+        my $tmpfile = `tempfile`;
+        chomp $tmpfile;
+        if ( $last_subsection eq "" ) {
+            system( $debconf_helper, "FALSE", $tmpfile,
+                "configure-debian/packages_subsection", $subsel );
+        }
+        else {
+            system( $debconf_helper, "FALSE", $tmpfile,
+                "configure-debian/packages_subsection",
+                $subsel, $last_subsection );
+        }
+        open( my $subsection_h, '<', $tmpfile );
+        $last_subsection = <$subsection_h>;
+        chomp $last_subsection;
+        close $subsection_h;
+        unlink $tmpfile;
+        if ( $last_subsection eq '##BACKUP##' ) {
+            $state = -1;
+        }
+        elsif ( $last_subsection eq "" ) {
+            error("last_subsection was blank\n");
+        }
+    }
+
+    #Ask for the program
+    elsif ( $state == 2 ) {
+        my $tmpfile = `tempfile`;
+        chomp $tmpfile;
+        if ( !$nosections ) {
+            if ( $last_program eq "" ) {
+                system( $debconf_helper, "FALSE", $tmpfile,
+                    "configure-debian/packages_program",
+                    $programs{$last_subsection}
+                );
+            }
+            else {
+                system( $debconf_helper,
+                    "FALSE",
+                    $tmpfile,
+                    "configure-debian/packages_program",
+                    $programs{$last_subsection},
+                    $last_program
+                );
+            }
+        }
+        else {    # Don't list sections, just programs
+            system( $debconf_helper, "FALSE", $tmpfile,
+                "configure-debian/packages_program", $allprograms );
+        }
+        open( my $program_h, '<', $tmpfile );
+        $last_program = <$program_h>;
+        chomp $last_program;
+        close $program_h;
+        unlink $tmpfile;
+        if ( $last_program eq '##BACKUP##' ) {
+            $state = -1;
+        }
+        elsif ( $last_program eq "" ) {
+            error("last_program was blank\n");
+        }
+    }
+
+    #Reconfigure and ask for a new one
+    elsif ( $state == 3 ) {
+        if ( $last_program ne "" ) {
+            print(
+                "Launching dpkg-reconfigure for $last_program. One moment...\n"
+            );
+            system("dpkg-reconfigure $reconf_args $last_program");
+            print("Done.\n");
+        }
+
+        #Ask if they want to configure another program
+        my $tmpfile = `tempfile`;
+        chomp $tmpfile;
+        system( $debconf_helper, "FALSE", $tmpfile,
+            "configure-debian/packages_another" );
+        open( my $another_h, '<', $tmpfile );
+        my $ret = <$another_h>;
+        chomp $ret;
+        close $another_h;
+        unlink $tmpfile;
+
+        if ( $ret eq "" ) {
+            error("ret was blank\n");
+        }
+        elsif ( $ret eq "true" ) {
+            if ( !$nosections ) {
+                $state = 0;    #Set state to 0, to be set to 1 next
+            }
+            else {
+                $state = 1;
+            }
+        }
+    }
+    $state++;
+}
+
+#Exit nicely if we just cancel out
+if ( $state == 0 ) {
+    my $tmpfile = `tempfile`;
+    chomp $tmpfile;
+    if ( $real_frontend ne '' ) {
+        system( $debconf_helper, $real_frontend, $tmpfile )
+          ;    #Repair the frontend
+    }
+    exit;
+}
+
+=head1 AUTHOR
+
+David Nusinow <dnusinow@debian.org>
+
+=cut

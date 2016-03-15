@@ -1,0 +1,17 @@
+Template: configure-debian/packages_subsection
+Type: select
+_Choices: ${CHOICES}
+_Description: Which subsection do you want?
+
+Template: configure-debian/packages_program
+Type: select
+_Choices: ${CHOICES}
+_Description: Which program do you want to configure?
+
+Template: configure-debian/packages_another
+Type: boolean
+_Description: Would you like to configure another program?
+
+Template: configure-debian/title
+Type: title
+_Description: Configure Packages

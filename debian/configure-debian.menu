@@ -1,0 +1,6 @@
+?package(configure-debian):\
+   needs="text"\
+   section="Applications/System/Administration"\
+   title="Configure Debian"\
+   icon="/usr/share/pixmaps/configure-debian.xpm"\
+   command="/usr/bin/su-to-root -p root -c /usr/sbin/configure-debian --frontend=##CHECK##"

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Configure-Debian
+Comment=Reconfigure Your Packages
+Exec=/usr/bin/sudo /usr/sbin/configure-debian
+Icon=/usr/share/pixmaps/configure-debian-48x48.png
+Terminal=true
+Type=Application
+Categories=Application;System;

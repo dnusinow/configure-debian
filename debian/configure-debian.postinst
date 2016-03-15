@@ -1,0 +1,16 @@
+#!/bin/sh -e
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+if [ "$1" = "configure" ]
+then
+   if dpkg --compare-versions "$2" "le-nl" "0.5.1"
+   then
+	db_unregister configure-debian/another
+	db_unregister configure-debian/program
+	db_unregister configure-debian/subsection
+   fi
+fi
+
+#DEBHELPER#

@@ -1,0 +1,20 @@
+Source: configure-debian
+Section: admin
+Priority: optional
+Maintainer: David Nusinow <dnusinow@debian.org>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.8.0.0
+
+Package: configure-debian
+Architecture: all
+Depends: ${misc:Depends}, ${perl:Depends}, liblocale-gettext-perl
+Description: central configuration program for packages using debconf
+ configure-debian is a program which presents a list of packages which
+ use Debconf, Debian's configuration management system.
+ .
+ Debconf provides first-time installation wizards that run when a
+ package is installed. You may reconfigure these packages at a later 
+ time, if you wish, and configure-debian makes that very easy.
+ .
+ configure-debian splits the package lists into the subsections which 
+ make up the Debian archive, such as x11, base, gnome, or kde.

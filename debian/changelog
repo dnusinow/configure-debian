@@ -1,0 +1,288 @@
+configure-debian (1.0.3) UNRELEASED; urgency=low
+
+  * configure-debian:
+    - Don't hardcode package sections
+    - Remove outdated reference to linuxconf in the documentation
+    - Convert from two arg to three arg open
+    - Use English module for a few less common variables
+    - Fix a bug where canceling from the top level with using -l
+      returned to the beginning of the non-list state instead of
+      quitting
+  * Debconf translations:
+    - Turkish. Thanks Mert Dirik. Closes: #759875
+    - Indonesian. Thanks Mahyuddin Susanto. Closes: #654156
+  * Update copyright info:
+    - Set to GPLv3 or greater
+    - Convert to machine readable format
+    - Update year
+  * Remove dh_desktop from debian/rules. Move installation
+    of the file out of the debian dir and into the package
+    Makefile. Closes: #817293
+  * Use sudo instead of su-to-root in .desktop file
+  * Replace dh_clean -k with dh_prep
+  * Update standards to 3.9.7.0:
+    - Convert copyright file to utf-8
+    - Add build-arch and build-indep targets to debian/rules
+
+ -- David Nusinow <dnusinow@debian.org>  Sun, 13 Mar 2016 15:36:37 -0400
+
+configure-debian (1.0.2-0.1) unstable; urgency=low
+
+  * Non-maintainer upload to fix pending l10n issues.
+  * Debconf translations:
+    - Catalan. Closes: #411989
+    - Slovak. Closes: #441670, #438585
+    - Finnish. Closes: #471682
+    - Norwegian Bokmål. Closes: #473191
+    - Galician. Closes: #473495
+  * [Lintian] Change menu section to Applications/System/Administration
+    to fit the "new" Debian menu policy
+  * [Lintian] Remove the MultipleArgs key from the .desktop file. It
+    is not part of the spec
+  * [Lintian] Use dh_desktop instead of copying the .desktop file manually
+  * Use ${misc:Depends} in Depends instead of hardcoding debconf versions
+    and alternatives
+  * [Lintian] Correct formatting of NEWS.Debian
+
+ -- Christian Perrier <bubulle@debian.org>  Mon, 31 Mar 2008 08:27:41 +0200
+
+configure-debian (1.0.2) unstable; urgency=low
+
+  * NMU ACK. Thanks Chrisitian.
+  * Use su-to-root's new path (/usr/bin) in both the desktop file and the menu
+    item. Thanks Bill Allombert. Closes: #400223
+  * Add binary-arch target to debian/rules. Thanks Aurelien Jarno.
+    Closes: #395587
+  * Bump debhelper compat to 5
+    + Install to debian/configure-debian rather than debian/tmp
+  * Bump standards version to 3.7.2.2. No changes needed.
+  * Build-Depends-Indep -> Build-Depends
+
+ -- David Nusinow <dnusinow@debian.org>  Sun, 26 Nov 2006 12:08:09 -0500
+
+configure-debian (1.0.1.1) unstable; urgency=low
+
+  * Non-maintainer upload to fix pending l10n issues
+  * Debconf templates translations:
+    - Vietnamese added. Closes: #310041
+    - Swedish added. Closes: #331311	
+    - Italian added. Closes: #345532
+    - Spanish added. Closes: #334549
+    - German updated. Closes: #347938
+    - Portuguese changed to pt instead of "pt_PT". 
+      Closes: #376059, #338861, #381309
+    - Hungarian added. Sent during the call for updates of the NMU.
+    - Russian updated. Sent during the call for updates of the NMU.
+    - Basque added. Sent during the call for updates of the NMU.
+
+ -- Christian Perrier <bubulle@debian.org>  Sun,  1 Oct 2006 10:51:46 +0200
+
+configure-debian (1.0.1) unstable; urgency=low
+
+  * Add alternate dependency on debconf-2.0
+
+ -- David Nusinow <dnusinow@debian.org>  Mon,  8 Aug 2005 23:54:57 -0400
+
+configure-debian (1.0.0) unstable; urgency=low
+
+  * And I shall bless thee... 1.0!
+  * Fix all switch so that it doesn't bother to ask you for a program
+
+ -- David Nusinow <dnusinow@debian.org>  Tue, 22 Feb 2005 21:22:07 -0500
+
+configure-debian (0.9.4) unstable; urgency=low
+
+  * Add -l|--list flag to skip sections and just display all programs; 
+    closes: #197589
+  * Update my email address in the manpage
+  * Translations
+    - Portuguese thanks to Luis Matos; closes: #283989
+
+ -- David Nusinow <dnusinow@debian.org>  Mon, 21 Feb 2005 11:44:41 -0500
+
+configure-debian (0.9.3) unstable; urgency=low
+
+  * NMU Ack. Many thanks to Stephen Quinney for the last update; 
+  	closes: #273101
+  * Translations
+    - Brazilian Portuguese thanks to Andre Luis Lopes; closes: #264091
+    - French thanks to Julien Louis; closes: #264342
+    - Japanese thanks to Hideki Yamane; closes: #264634
+    - Czech thanks to Jan Outrata; closes: #266576
+    - Dutch thanks to Cobaco; closes: #270317
+
+ -- David Nusinow <dnusinow@debian.org>  Sat,  2 Oct 2004 20:15:55 -0400
+
+configure-debian (0.9.2-0.1) unstable; urgency=high
+
+  * Non-maintainer upload to fix RC bug.
+  * Added dependency on liblocale-gettext-perl, closes: #273101.
+
+ -- Stephen Quinney <stephen@jadevine.org.uk>  Sat, 25 Sep 2004 11:11:57 +0100
+
+configure-debian (0.9.2) unstable; urgency=low
+
+  * Change maintainer email to dnusinow@debian.org
+  * Fix --frontend and --priority switches
+  * Translations
+    - Danish thanks to Claus Hindsgaul; closes: #262225
+    - Correct ru charset thanks to Alex Riesen; Closes: #262435
+
+ -- David Nusinow <dnusinow@debian.org>  Fri, 30 Jul 2004 04:01:37 -0500
+
+configure-debian (0.9.1) unstable; urgency=low
+
+  * Re-add backup capability
+  * Add an icon
+  * Add a .desktop file for Gnome, KDE, and any others that support them
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Sun, 25 Jul 2004 23:32:37 -0400
+
+configure-debian (0.9.0) unstable; urgency=low
+
+  * Major rewrite based on tasksel; closes: #249571
+  * debian/copyright
+    - Update date
+  * debian/configure-debian.templates
+    - Change variable names in selection questions to be compatible with new
+      configure-debian-debconf script
+    - Add a title debconf question to allow for translation
+  * Translations:
+    - Czech translation thanks to Jan Outrata; closes: #259181
+    - Danish translation thanks to Claus Hindsgaul; closes: #241477
+    - Greek translation thanks to Konstantinos Margaritis; closes: #229525
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Wed, 14 Jul 2004 21:04:01 -0400
+
+configure-debian (0.5.6) unstable; urgency=low
+
+  * Include new German translation. Thanks to Pattrick William, Tomas
+    Friedemann, and cobaco; closes: #223116
+  * Include new Japanese translation. Thanks to Hideki Yamane; closes: #223468
+  
+ -- David Nusinow <david_nusinow@yahoo.com>  Sat, 17 Jan 2004 23:01:17 -0500
+
+configure-debian (0.5.5) unstable; urgency=low
+
+  * Include new Russian translation. Thanks to Ilgiz Kalmetev;
+    closes: #214372, #219236
+  * Fix bug if you specify the frontend with -f. Also some cleanup on
+    the argument concatenation code; closes: #218170
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Fri, 14 Nov 2003 21:09:32 -0500
+
+configure-debian (0.5.4) unstable; urgency=low
+
+  * Update Dutch translation. Thanks to cobaco; closes: #212996
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Sun,  5 Oct 2003 20:00:04 -0400
+
+configure-debian (0.5.3) unstable; urgency=low
+
+  * Update french translation. Thanks to Christian Perrier; 
+    closes: #208783
+  * Update pt_BR translation. Thanks to Andres Luis Lopes;
+    closes: #207953
+  * Fix naming on Dutch translation. Thanks to Denis Barbier;
+    closes: #204915
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Sat, 13 Sep 2003 17:55:48 -0400
+
+configure-debian (0.5.2) unstable; urgency=low
+
+  * Update configure-debian and templates file for new names to deal
+    with multiple apps in the package. Adjust postinst to clean up.
+  * Reworked to fix brokeness with gnome frontend; closes: #193187
+  * Added NEWS.Debian.gz
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Tue, 26 Aug 2003 22:48:22 -0700
+
+configure-debian (0.5.1) unstable; urgency=low
+
+  * NMU ACK: Correct French translation. I goofed the filename. Also update it
+    for the new template. Thanks to Christian Perrier for the upload and
+    Julien Louis for the translation; closes: #193889
+  * Change use of showold to reshow(1) to keep up with debconf. Also require
+    new debconf to reflect this.
+  * Add Dutch translation. Thanks to Cobaco; closes: #204195
+  * Bump standards version to 3.6.1.0. No changes necessary
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Sat, 23 Aug 2003 16:10:00 -0700
+
+configure-debian (0.5.0.2) unstable; urgency=low
+
+  * fr.po updated with the file Julien sent in #193889. I missed
+    this new file in the former NMU, sorry.
+
+ -- Christian Perrier <bubulle@debian.org>  Tue, 15 Jul 2003 13:45:20 +0200
+
+configure-debian (0.5.0.1) unstable; urgency=low
+
+  * NMU
+  * Not really sure about the appropriate versioning. Sorry if I messed
+    up here. Shouldn't really harm anyway.
+  * French debconf translation renamed to fr.po. Closes: #193889
+
+ -- Christian Perrier <bubulle@debian.org>  Wed,  2 Jul 2003 09:13:37 +0200
+ 
+configure-debian (0.5.0) unstable; urgency=low
+
+  * Add French Translation, courtesy of Julien Louis; closes: #189082
+  * Add support for new embedded, gnome, kde, libdevel, perl, and python
+    sections.
+  * Add a long-overdue menu item. It's in Apps/System/Admin.
+  * configure-debian: On finishing reconfigure, now ask the user if they
+    want to configure another program.
+  *	Don't bother showing the ui if passed the --all switch
+  *	Add usage display
+  *	Take in to account explicit packages passed at the start
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Mon, 28 Apr 2003 22:11:18 -0700
+
+configure-debian (0.4.0) unstable; urgency=low
+
+  * configure-debian: Add documentation in perldoc format
+  * configure-debian: Add ability to pass dpkg-reconfigure's switches 
+    to it when called
+  * Remove debian/configure-debian.sgml because of documentaion change
+  * Remove build-dep on docbook2man
+  * Bump standards version to 3.5.9. No changes needed.
+  * TODO: Removed old goals. Added a new one for 0.5
+  * Applied patch to use po-debconf and include the Portuguese
+    translation. Many thanks to Andre Luis Lopes. More translations are 
+    much appreciated!; closes: #187778
+  * Updated long package description, graciously provided by David 
+    Harris.
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Fri, 11 Apr 2003 00:53:35 -0700
+  
+configure-debian (0.3.0) unstable; urgency=low
+
+  * configure-debian: Add "use Debconf::gettext"; closes: #177841
+  * Substantial rewrite to use Debconf's internal objects. This removes
+    the debian/configure-debian.config script and places the logic back
+    in to configure-debian where it belongs. This seems, on my machine, 
+    to cause a speedup in the program. I'd like to hear from anyone else
+    on this though.
+  * Added postinst script to clear out cruft questions. So much cruft.
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Sun, 09 Feb 2003 11:23:05 -0800
+
+configure-debian (0.2.0) unstable; urgency=low
+
+  * Bump question priority down to low
+  * Add check to make sure the program is being run by the 
+    configure-debian script, rather than at install-time or by
+    dpkg-reconfigure; closes: #176847
+  * Fix bug where interrupted reconfigurations would immediately jump  
+    back to where they had been upon interruption
+  * Add back capability
+  * Update package description; closes: #176799
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Mon, 20 Jan 2003 21:18:07 -0800
+
+configure-debian (0.1.0) unstable; urgency=low
+
+  * Initial Release; closes: #175647
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Mon, 30 Dec 2002 00:11:10 -0800

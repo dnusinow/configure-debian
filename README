@@ -1,0 +1,11 @@
+This program is meant to be a simple frontend to the dpkg-reconfigure
+program. Many new users who do not know about this program are unaware
+of how to return to the debconf configuration seen during package
+install. Others who do know about it often forget or do not know the
+package name of the program they want to reconfigure. This program is
+meant to address both of those issues.
+
+Note that this is not meant to be a complete configuration system!
+Debconf is a purposely simple system, and is not meant to solve all
+configuration needs. Still, it is very flexible and can accomplish a
+lot with relative ease. 

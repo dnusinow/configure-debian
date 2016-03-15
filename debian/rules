@@ -1,0 +1,53 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE=1
+
+build: build-indep build-arch build-stamp
+build-stamp:
+	dh_testdir
+#	/usr/bin/docbook-to-man debian/configure-debian.sgml > configure-debian.8
+	pod2man -c Debconf -r '' -s 8 configure-debian > configure-debian.8
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f configure-debian.8
+	rm -f build-stamp
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	mkdir debian/tmp
+
+	$(MAKE) prefix=`pwd`/debian/configure-debian/usr install
+
+build-indep:
+
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_installdebconf	
+	dh_installman configure-debian.8
+	dh_installmenu
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_perl
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+build-arch:
+
+binary-arch: build
+
+binary: binary-indep
+.PHONY: build clean binary-indep binary-arch binary install

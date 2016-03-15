@@ -1,0 +1,49 @@
+# Vietnamese Translation for configure-debian.
+# Copyright © 2005 Free Software Foundation, Inc.
+# Clytie Siddall <clytie@riverland.net.au>, 2005.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: configure-debian 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-08 07:40+0200\n"
+"PO-Revision-Date: 2005-05-21 18:20+0930\n"
+"Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
+"Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+# Variable: do not translate/ biến: đừng dịch
+#. Type: select
+#. Choices
+#. Type: select
+#. Choices
+#: ../configure-debian.templates:1001 ../configure-debian.templates:2001
+msgid "${CHOICES}"
+msgstr "${CHOICES}"
+
+#. Type: select
+#. Description
+#: ../configure-debian.templates:1002
+msgid "Which subsection do you want?"
+msgstr "Bạn có muốn phần con nào?"
+
+#. Type: select
+#. Description
+#: ../configure-debian.templates:2002
+msgid "Which program do you want to configure?"
+msgstr "Bạn có muốn cấu hình chương trình nào?"
+
+#. Type: boolean
+#. Description
+#: ../configure-debian.templates:3001
+msgid "Would you like to configure another program?"
+msgstr "Bạn có muốn cấu hình một chương trình nữa không?"
+
+#. Type: title
+#. Description
+#: ../configure-debian.templates:4001
+msgid "Configure Packages"
+msgstr "Cấu hình gói tin"

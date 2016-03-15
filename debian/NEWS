@@ -1,0 +1,23 @@
+configure-debian (0.9.0) unstable; urgency=low
+
+  * I rewrote large portions of configure-debian based on the tasksel
+    rewrite.  It now uses debconf through an external shell script, so
+    it'll be compatible with cdebconf if need be. It should also avoid the
+    weird gnome debconf frontend bugs that have popped up in earlier
+    versions. Any frontend-specific bugs are now bugs in the frontend
+    itself, not configure-debian. After some testing, I hope to put the
+    program in to debconf itself (named configure-packages) but not until
+    I'm comfortable with its stability.
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Sun, 18 Jul 2004 22:52:23 -0400
+
+configure-debian (0.5.2) unstable; urgency=low
+
+  * This will be the last of the major changes before sarge. Anything
+    else will just be updated and new translations. A quick apology to
+    the translators, I'm sorry that I've been changing my templates so
+    much, but the program is basically in its final form right now.
+    Everything else will be just brand new templates for new apps, but
+    those won't show up until after sarge is released.
+
+ -- David Nusinow <david_nusinow@yahoo.com>  Fri, 29 Aug 2003 21:13:12 -0700

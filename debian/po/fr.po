@@ -1,0 +1,79 @@
+#
+#    Translators, if you are not familiar with the PO format, gettext
+#    documentation is worth reading, especially sections dedicated to
+#    this format, e.g. by running:
+#         info -n '(gettext)PO Files'
+#         info -n '(gettext)Header Entry'
+#
+#    Some information specific to po-debconf are available at
+#            /usr/share/doc/po-debconf/README-trans
+#         or http://www.debian.org/intl/l10n/po-debconf/README-trans
+#
+#    Developers do not need to manually edit POT or PO files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: configure-debian 0.9.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-10-08 07:40+0200\n"
+"PO-Revision-Date: 2004-08-07 13:22+0200\n"
+"Last-Translator: Julien Louis <leonptitlouis@wanadoo.fr>\n"
+"Language-Team: debian-l10n-french <debian-l10n-french@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: select
+#. Choices
+#. Type: select
+#. Choices
+#: ../configure-debian.templates:1001 ../configure-debian.templates:2001
+msgid "${CHOICES}"
+msgstr "${CHOICES}"
+
+#. Type: select
+#. Description
+#: ../configure-debian.templates:1002
+msgid "Which subsection do you want?"
+msgstr "Quelle sous-section voulez-vous ?"
+
+#. Type: select
+#. Description
+#: ../configure-debian.templates:2002
+msgid "Which program do you want to configure?"
+msgstr "Quel programme voulez-vous configurer ?"
+
+#. Type: boolean
+#. Description
+#: ../configure-debian.templates:3001
+msgid "Would you like to configure another program?"
+msgstr "Voulez-vous configurer un autre programme ?"
+
+#. Type: title
+#. Description
+#: ../configure-debian.templates:4001
+msgid "Configure Packages"
+msgstr "Configuration des paquets"
+
+#~ msgid "${packages_subsections}"
+#~ msgstr "${packages_subsections}"
+
+#~ msgid "${packages_programs}"
+#~ msgstr "${packages_programs}"
+
+#, fuzzy
+#~ msgid "Which service do you want to configure?"
+#~ msgstr "Quel programme voulez-vous configurer ?"
+
+#, fuzzy
+#~ msgid "Would you like to configure how the service behaves at startup?"
+#~ msgstr "Voulez-vous configurer un autre programme ?"
+
+#, fuzzy
+#~ msgid ""
+#~ "Would you like to configure $service in one of these other runlevels?"
+#~ msgstr "Voulez-vous configurer un autre programme ?"
+
+#, fuzzy
+#~ msgid "Would you like to configure another service?"
+#~ msgstr "Voulez-vous configurer un autre programme ?"

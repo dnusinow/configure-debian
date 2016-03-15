@@ -1,0 +1,38 @@
+#!/bin/sh
+. /usr/share/debconf/confmodule
+set -e
+frontend="$1"
+tmpfile=$2
+question=$3
+choices="$4"
+defaults="$5"
+db_capb backup
+
+# Customize our frontend if we're passed one
+if [ "$frontend" != "FALSE" ]; then
+    db_get "debconf/frontend"
+    echo "$RET" >$tmpfile
+    #REALFRONTEND="$RET"
+    db_set "debconf/frontend" "$frontend"
+# We've already customized our frontend, so just ask the question
+else
+    db_fset $question seen false
+    db_reset $question
+    db_settitle configure-debian/title
+    if [ "$choices" ]; then
+        db_subst $question CHOICES "$choices"
+    fi
+    if [ "$defaults" ]; then
+        db_set $question "$defaults"
+    fi
+    db_input high $question || true
+    if db_go; then
+        db_get $question
+        echo "$RET" >$tmpfile
+    else
+        echo '##BACKUP##' >$tmpfile
+    fi
+#    if [ "$REALFRONTEND" ]; then
+#        db_set "debconf/frontend" "$REALFRONTEND"
+#    fi
+fi
