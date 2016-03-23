@@ -1,4 +1,4 @@
-configure-debian (1.0.3) UNRELEASED; urgency=low
+configure-debian (1.0.3) unstable; urgency=low
 
   * configure-debian:
     - Don't hardcode package sections
@@ -24,7 +24,7 @@ configure-debian (1.0.3) UNRELEASED; urgency=low
     - Convert copyright file to utf-8
     - Add build-arch and build-indep targets to debian/rules
 
- -- David Nusinow <dnusinow@debian.org>  Sun, 13 Mar 2016 15:36:37 -0400
+ -- David Nusinow <dnusinow@debian.org>  Tue, 22 Mar 2016 20:31:22 -0400
 
 configure-debian (1.0.2-0.1) unstable; urgency=low
 
