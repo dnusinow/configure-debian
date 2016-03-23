@@ -8,6 +8,7 @@ Standards-Version: 3.9.7.0
 Package: configure-debian
 Architecture: all
 Depends: ${misc:Depends}, ${perl:Depends}, liblocale-gettext-perl
+Suggests: sudo
 Description: central configuration program for packages using debconf
  configure-debian is a program which presents a list of packages which
  use Debconf, Debian's configuration management system.

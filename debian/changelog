@@ -18,7 +18,8 @@ configure-debian (1.0.3) unstable; urgency=low
   * Remove dh_desktop from debian/rules. Move installation
     of the file out of the debian dir and into the package
     Makefile. Closes: #817293
-  * Use sudo instead of su-to-root in .desktop file
+  * Use sudo instead of su-to-root in .desktop file. Add
+    to Suggests
   * Replace dh_clean -k with dh_prep
   * Update standards to 3.9.7.0:
     - Convert copyright file to utf-8
